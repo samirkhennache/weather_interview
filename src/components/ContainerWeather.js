@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import axios from "axios";
 import SelectControl from "@material-ui/core/Switch";
+import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import ListItem from "@material-ui/core/ListItem";
 import Weather from "./currentWeather/Weather";
 import CurrentDate from "./CurrentDate";
 import getWeather from "../actions/weatherAction";
 import Form from "./currentWeather/Form";
 import SunriseSunset from "./sunrise-sunset/SunriseSunset";
 import Background from "./currentWeather/Background";
+import "./containerWeather.css";
+import { Button } from "@material-ui/core";
 
 const URL = "https://eu1.locationiq.com/v1/reverse.php?key=311b5ecb2cf7bc&lat=";
 class ContainerWeather extends Component {
@@ -39,6 +43,10 @@ class ContainerWeather extends Component {
     });
   };
 
+  Accueil = props => <Link to="/" {...props} />;
+
+  Sunrise = props => <Link to="/sunriseSunset" {...props} />;
+
   componentDidMount = () => {
     this.getLoc();
   };
@@ -49,29 +57,42 @@ class ContainerWeather extends Component {
     const { imgBackground } = data;
 
     return (
-      <div>
-        <Form checked={checked} />
-        <CurrentDate />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <div>
-                <SelectControl
-                  checked={checked}
-                  onChange={this.handleChange}
-                  color="default"
+      <BrowserRouter>
+        <div>
+          <Form checked={checked} />
+          <CurrentDate />
+
+          <div className="container-discription">
+            <Button component={Link} to="/">
+              <FiChevronLeft size="3em" className="prvious" />
+            </Button>
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <div>
+                      <SelectControl
+                        checked={checked}
+                        onChange={this.handleChange}
+                        color="default"
+                      />
+                      <span>{checked ? `°F` : `°C`}</span>
+                      <Weather checked={checked} {...props} />
+                    </div>
+                  )}
                 />
-                <span>{checked ? `°F` : `°C`}</span>
-                <Weather checked={checked} {...props} />
-              </div>
-            )}
-          />
-          <Route exact path="/sunriseSunset" component={SunriseSunset} />
-        </Switch>
-        <Background imgBackground={imgBackground} />
-      </div>
+                <Route exact path="/sunriseSunset" component={SunriseSunset} />
+              </Switch>
+            </div>
+            <Button component={Link} to="/sunriseSunset">
+              <FiChevronRight size="3em" className="next" />
+            </Button>
+            <Background imgBackground={imgBackground} />
+          </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }

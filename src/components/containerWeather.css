@@ -1,11 +1,11 @@
-.Weather {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: auto;
   margin: 0 10px 0 10px;
 }
-.weather-discription {
+.container-discription {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -13,4 +13,8 @@
   font-size: 26px;
   color: black;
   margin-top: 10px;
+}
+.previous,
+.next {
+  cursor: pointer;
 }
