@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
         ...state,
         loadingData: false,
         loadedData: true,
+        error: false,
         weatherData: action.payload
       }
     case FETCH_METEO_FAILURE:

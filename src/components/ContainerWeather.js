@@ -1,38 +1,84 @@
-import React, { Component } from 'react'
-import Weather from './Weather'
-import { connect } from 'react-redux';
-import { getWeather } from "../actions/weatherAction"
-import axios from "axios"
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import axios from "axios";
+import SelectControl from "@material-ui/core/Switch";
+import Weather from "./currentWeather/Weather";
+import CurrentDate from "./CurrentDate";
+import getWeather from "../actions/weatherAction";
+import Form from "./currentWeather/Form";
+import SunriseSunset from "./sunrise-sunset/SunriseSunset";
+import Background from "./currentWeather/Background";
 
-const URL = "https://eu1.locationiq.com/v1/reverse.php?key=311b5ecb2cf7bc&lat="
+const URL = "https://eu1.locationiq.com/v1/reverse.php?key=311b5ecb2cf7bc&lat=";
 class ContainerWeather extends Component {
-  state = {}
+  state = {
+    checked: false
+  };
+
+  handleChange = event => {
+    const { data, getWeather } = this.props;
+    const { city } = data;
+    this.setState({ checked: event.target.checked }, () => {
+      const { checked } = this.state;
+      if (checked) getWeather(city, true, "imperial");
+      else getWeather(city, true, "metric");
+    });
+  };
+
   getLoc = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(latitude);
-      console.log(longitude);
-      //mettre a jour les states apres la recuperation des lat et long
-      axios(`${URL}${latitude}&lon=${longitude}&format=json`)
-        .then(dataLoc => {
-          console.log("mes data ", dataLoc.data);
-          this.props.getWeather(dataLoc.data, true)
-        })
-    })
-  }
+    const { data, getWeather } = this.props;
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude } = position.coords;
+      const { longitude } = position.coords;
+
+      // mettre a jour les states apres la recuperation des lat et long
+      axios(`${URL}${latitude}&lon=${longitude}&format=json`).then(dataLoc => {
+        getWeather(dataLoc.data, false);
+      });
+    });
+  };
+
   componentDidMount = () => {
     this.getLoc();
-  }
+  };
 
-  render () {
+  render() {
+    const { checked } = this.state;
+    const { data } = this.props;
+    const { imgBackground } = data;
 
     return (
       <div>
-        <Weather />
+        <Form checked={checked} />
+        <CurrentDate />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <div>
+                <SelectControl
+                  checked={checked}
+                  onChange={this.handleChange}
+                  color="default"
+                />
+                <span>{checked ? `°F` : `°C`}</span>
+                <Weather checked={checked} {...props} />
+              </div>
+            )}
+          />
+          <Route exact path="/sunriseSunset" component={SunriseSunset} />
+        </Switch>
+        <Background imgBackground={imgBackground} />
       </div>
     );
   }
 }
-
-export default connect(null, { getWeather })(ContainerWeather);
+const mapStateToprops = state => ({
+  data: state.weatherReducer.weatherData
+});
+export default connect(
+  mapStateToprops,
+  { getWeather }
+)(ContainerWeather);

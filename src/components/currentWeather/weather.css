@@ -1,0 +1,20 @@
+.Weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  margin: 0 10px 0 10px;
+}
+.weather-discription {
+  font-size: 26px;
+  color: black;
+  margin-top: 10px;
+  border: solid black 1px;
+}
+.container {
+  border: solid black 1px;
+}
+.incon {
+  border: solid black 1px;
+
+}
