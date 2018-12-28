@@ -39,7 +39,12 @@ class Form extends React.Component {
     city: null
   };
 
-  // Fetch SearchBar
+  /**
+   * @function getData
+   * @returns nothing
+   * @param event
+   * start the actions weather  to get the data
+   */
   getData = e => {
     const { weather, checked } = this.props;
     const { city } = this.state;

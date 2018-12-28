@@ -20,6 +20,12 @@ class ContainerWeather extends Component {
     checked: false
   };
 
+  /**
+   * @function handleChange
+   * @returns nothing
+   * @param event
+   * handle the change event to get the name of the city
+   */
   handleChange = event => {
     const { data, weather } = this.props;
     const { city } = data;
@@ -30,14 +36,19 @@ class ContainerWeather extends Component {
     });
   };
 
+  /**
+   * @function getLoc
+   * @returns nothing
+   * @param nothing
+   * get the current position using the IP address
+   * convert this position to get the name of the city
+   * start the action weather to get the weather data
+   */
   getLoc = () => {
     const { weather } = this.props;
-    // const { navigate } = navigation;
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude } = position.coords;
       const { longitude } = position.coords;
-
-      // mettre a jour les states apres la recuperation des lat et long
       axios(`${URL}${latitude}&lon=${longitude}&format=json`).then(dataLoc => {
         weather(dataLoc.data, false);
       });

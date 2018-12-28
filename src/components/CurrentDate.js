@@ -1,6 +1,12 @@
 import React from "react";
 import "./currentDate.css";
 
+/**
+ * @function formatDate
+ * @returns new date format
+ * @param date
+ * return the french format of the date
+ */
 const formatDate = date => {
   const monthNames = [
     "Janvier",

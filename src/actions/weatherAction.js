@@ -5,22 +5,36 @@ import {
   FETCH_METEO_STARTED
 } from "./types";
 
-// Clés API
-const apiKeyCurrentWeather = "588b34ef0ccd1ce25e0cd600e9e852fb";
-// 588b34ef0ccd1ce25e0cd600e9e852fb -- clef de Delph
-// 0f53c26a9c88a54d8706c8b3c9d2b880 -- clef de quelqu'un
-// methode GetMeteoPollution qui lance le fetch de meteo et la pollution
+// API key
+const API_KEY = "588b34ef0ccd1ce25e0cd600e9e852fb";
+/**
+ * @function fetchWeatherStarted
+ * @returns objet
+ * @param nothing
+ * action to dipatch when the axios started
+ */
 const fetchWeatherStarted = () => ({
   type: FETCH_METEO_STARTED
 });
 
+/**
+ * @function fetchWeatherFailure
+ * @returns object
+ * @param nothing
+ * action to dispatch if the axios failure
+ */
 const fetchWeatherFailure = () => ({
   type: FETCH_METEO_FAILURE,
   payload: {
     error: true
   }
 });
-
+/**
+ * @function getCity
+ * @returns string
+ * @param object
+ * get the name of the city
+ */
 const getCity = address => {
   if (address.city !== undefined) return address.city;
   if (address.city_district !== undefined) return address.city_district;
@@ -34,6 +48,12 @@ const getCity = address => {
   if (address.neighbourhood !== undefined) return address.neighbourhood;
   return false;
 };
+/**
+ * @function fetchWeatherSuccess
+ * @returns object
+ * @param object
+ * action to dispatch  if the axios success
+ */
 const fetchWeatherSuccess = dataMeteo => ({
   type: FETCH_METEO_SUCCESS,
   payload: {
@@ -49,10 +69,20 @@ const fetchWeatherSuccess = dataMeteo => ({
     sunset: dataMeteo.sys.sunset
   }
 });
+/**
+ * @function getWeather
+ * @returns object
+ * @param any
+ * @param bool
+ * @param string
+ * start the axios to get the data
+ * <isCity = true  data is string>
+ * <isCity = false  data is an objet>
+ *<unity  is stirng to choose the untity of the results metric or imperial>
+ */
 const getWeather = (data, isCity, unity = "metric") => dispatch => {
   dispatch(fetchWeatherStarted());
   let city = null;
-
   if (!isCity) city = getCity(data.address);
   else city = data;
   const units = `&units=${unity}`;
@@ -60,7 +90,7 @@ const getWeather = (data, isCity, unity = "metric") => dispatch => {
   // fetch meteo
   axios
     .get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}${units}${lang}&APPID=${apiKeyCurrentWeather}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}${units}${lang}&APPID=${API_KEY}`
     )
     .then(dataMeteo => dispatch(fetchWeatherSuccess(dataMeteo.data)))
     .catch(err => dispatch(fetchWeatherFailure(err)));
