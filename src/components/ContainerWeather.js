@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import axios from "axios";
 import SelectControl from "@material-ui/core/Switch";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
-import ListItem from "@material-ui/core/ListItem";
+import { Button } from "@material-ui/core";
 import Weather from "./currentWeather/Weather";
 import CurrentDate from "./CurrentDate";
 import getWeather from "../actions/weatherAction";
@@ -12,9 +12,9 @@ import Form from "./currentWeather/Form";
 import SunriseSunset from "./sunrise-sunset/SunriseSunset";
 import Background from "./currentWeather/Background";
 import "./containerWeather.css";
-import { Button } from "@material-ui/core";
 
 const URL = "https://eu1.locationiq.com/v1/reverse.php?key=311b5ecb2cf7bc&lat=";
+
 class ContainerWeather extends Component {
   state = {
     checked: false
@@ -55,13 +55,11 @@ class ContainerWeather extends Component {
     const { checked } = this.state;
     const { data } = this.props;
     const { imgBackground } = data;
-
     return (
       <BrowserRouter>
         <div>
           <Form checked={checked} />
           <CurrentDate />
-
           <div className="container-discription">
             <Button component={Link} to="/">
               <FiChevronLeft size="3em" className="prvious" />
