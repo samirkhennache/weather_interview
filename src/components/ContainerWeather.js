@@ -21,24 +21,25 @@ class ContainerWeather extends Component {
   };
 
   handleChange = event => {
-    const { data, getWeather } = this.props;
+    const { data, weather } = this.props;
     const { city } = data;
     this.setState({ checked: event.target.checked }, () => {
       const { checked } = this.state;
-      if (checked) getWeather(city, true, "imperial");
-      else getWeather(city, true, "metric");
+      if (checked) weather(city, true, "imperial");
+      else weather(city, true, "metric");
     });
   };
 
   getLoc = () => {
-    const { data, getWeather } = this.props;
+    const { weather } = this.props;
+    // const { navigate } = navigation;
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude } = position.coords;
       const { longitude } = position.coords;
 
       // mettre a jour les states apres la recuperation des lat et long
       axios(`${URL}${latitude}&lon=${longitude}&format=json`).then(dataLoc => {
-        getWeather(dataLoc.data, false);
+        weather(dataLoc.data, false);
       });
     });
   };
@@ -58,7 +59,6 @@ class ContainerWeather extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Form checked={checked} />
           <CurrentDate />
           <div className="container-discription">
             <Button component={Link} to="/">
@@ -83,6 +83,7 @@ class ContainerWeather extends Component {
                 />
                 <Route exact path="/sunriseSunset" component={SunriseSunset} />
               </Switch>
+              <Form checked={checked} />
             </div>
             <Button component={Link} to="/sunriseSunset">
               <FiChevronRight size="3em" className="next" />
@@ -97,7 +98,8 @@ class ContainerWeather extends Component {
 const mapStateToprops = state => ({
   data: state.weatherReducer.weatherData
 });
+
 export default connect(
   mapStateToprops,
-  { getWeather }
+  { weather: getWeather }
 )(ContainerWeather);

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import PropTypes from "prop-types";
 import Icon from "./Icon";
 import "./weather.css";
 
@@ -30,4 +29,15 @@ class Weather extends Component {
 const mapStateToProps = state => ({
   data: state.weatherReducer.weatherData
 });
+
+Weather.propTypes = {
+  data: PropTypes.shape({
+    city: PropTypes.string,
+    description: PropTypes.string,
+    temperature: PropTypes.number,
+    icon: PropTypes.string,
+    speedWind: PropTypes.number
+  }).isRequired,
+  checked: PropTypes.bool.isRequired
+};
 export default connect(mapStateToProps)(Weather);

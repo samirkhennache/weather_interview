@@ -41,8 +41,8 @@ const fetchWeatherSuccess = dataMeteo => ({
     city: dataMeteo.name,
     date: dataMeteo.dt,
     description: dataMeteo.weather[0].description,
-    icon: dataMeteo.weather[0].icon, // sert à afficher l'icone et le background.
-    imgBackground: dataMeteo.weather[0].icon, // sert à afficher le background.
+    icon: dataMeteo.weather[0].icon,
+    imgBackground: dataMeteo.weather[0].icon,
     speedWind: dataMeteo.wind.speed,
     windDegree: dataMeteo.wind.deg,
     sunrise: dataMeteo.sys.sunrise,

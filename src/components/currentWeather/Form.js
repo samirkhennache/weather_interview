@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -41,11 +41,11 @@ class Form extends React.Component {
 
   // Fetch SearchBar
   getData = e => {
-    const { getWeather, checked } = this.props;
+    const { weather, checked } = this.props;
     const { city } = this.state;
     e.preventDefault(); // eviter que la page se recharge  a chaque recherche.
-    if (checked) getWeather(city, true, "imperial");
-    else getWeather(city, true, "metric");
+    if (checked) weather(city, true, "imperial");
+    else weather(city, true, "metric");
   };
 
   handleChange = e => {
@@ -100,9 +100,13 @@ const mapStateToProps = state => ({
   data: state.weatherReducer.weatherData,
   error: state.weatherReducer.error
 });
+Form.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  classes: PropTypes.func.isRequired,
+  weather: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired
+};
 export default connect(
   mapStateToProps,
-  {
-    getWeather
-  }
+  { weather: getWeather }
 )(withStyles(styles)(Form));

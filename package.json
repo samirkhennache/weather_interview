@@ -10,6 +10,7 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
     "moment": "^2.23.0",
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-icons": "^3.2.2",
@@ -36,9 +37,21 @@
       "prettier/standard"
     ],
     "parser": "babel-eslint",
+    "globals": {
+      "window": true,
+      "navigator": true
+    },
     "rules": {
       "react/jsx-filename-extension": false,
       "react/prefer-stateless-function": false,
+      "no-underscore-dangle": [
+        2,
+        {
+          "allow": [
+            "__REDUX_DEVTOOLS_EXTENSION__"
+          ]
+        }
+      ],
       "prettier/prettier": [
         "error",
         {},

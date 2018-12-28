@@ -28,10 +28,8 @@ const formatDate = date => {
   const dayIndex = date.getDay();
   const day = date.getDate();
   const monthIndex = date.getMonth();
-
   return `${dayName[dayIndex]} ${day} ${monthNames[monthIndex]}`;
 };
-
 const CurrentDate = () => (
   <div className="CurrentDate">{formatDate(new Date())}</div>
 );
