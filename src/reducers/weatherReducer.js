@@ -2,7 +2,7 @@ import {
   FETCH_METEO_SUCCESS,
   FETCH_METEO_FAILURE,
   FETCH_METEO_STARTED
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
   loadedData: false,
@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loadingData: true
-      }
+      };
     case FETCH_METEO_SUCCESS:
       return {
         ...state,
@@ -25,13 +25,13 @@ export default (state = initialState, action) => {
         loadedData: true,
         error: false,
         weatherData: action.payload
-      }
+      };
     case FETCH_METEO_FAILURE:
       return {
         ...state,
         error: action.payload.error
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};

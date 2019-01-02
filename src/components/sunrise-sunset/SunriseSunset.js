@@ -1,22 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./sunriseSunset.css";
 import moment from "moment";
 
-class SunriseSunSet extends Component {
-  render() {
-    const { sunrise, sunset } = this.props;
-    const newSunrise = moment.unix(sunrise).format("hh:mm a");
-    const newSunsetn = moment.unix(sunset).format("hh:mm a");
-    return (
-      <div className="SunriseSunSet">
-        <p>Sunrise : {newSunrise}</p>
-        <p>Sunset : {newSunsetn}</p>
-      </div>
-    );
-  }
-}
+const SunriseSunSet = props => {
+  const { sunrise, sunset } = props;
+  const newSunrise = moment.unix(sunrise).format("hh:mm a");
+  const newSunsetn = moment.unix(sunset).format("hh:mm a");
+  return (
+    <div className="SunriseSunSet">
+      <p>Sunrise : {newSunrise}</p>
+      <p>Sunset : {newSunsetn}</p>
+    </div>
+  );
+};
 const mapStateToProps = state => ({
   sunrise: state.weatherReducer.weatherData.sunrise,
   sunset: state.weatherReducer.weatherData.sunset

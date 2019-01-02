@@ -105,11 +105,14 @@ const mapStateToProps = state => ({
   data: state.weatherReducer.weatherData,
   error: state.weatherReducer.error
 });
+Form.defaultProps = {
+  error: ""
+};
 Form.propTypes = {
   checked: PropTypes.bool.isRequired,
-  classes: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
   weather: PropTypes.func.isRequired,
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool
 };
 export default connect(
   mapStateToProps,

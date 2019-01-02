@@ -16,8 +16,11 @@ const Background = ({ imgBackground }) => (
     />
   </div>
 );
+Background.defaultProps = {
+  imgBackground: ""
+};
 Background.propTypes = {
-  imgBackground: PropTypes.string.isRequired
+  imgBackground: PropTypes.string
 };
 
 export default Background;
